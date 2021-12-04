@@ -1,6 +1,6 @@
 //
 // Created by 原显智 on 2021/11/25.
-//
+// forget to return in copy assginment.
 
 #ifndef UNTITLED_MYSHAREPTR_H
 #define UNTITLED_MYSHAREPTR_H
@@ -9,19 +9,14 @@ template<typename T>
 class MySharePtr {
 public:
 
-    MySharePtr() = delete;
-    explicit MySharePtr(T* pointer): SharePtr(pointer),RefCount(new (std::nothrow)int(1)) {
-      if(RefCount == nullptr) {
-          delete SharePtr;
-          delete RefCount;
-          throw std::bad_alloc();
-      }
+    MySharePtr(void) {SharePtr = nullptr; RefCount = new int(1);};
+    explicit MySharePtr(T* const pointer): SharePtr(pointer),RefCount(new (std::nothrow)int(1)) {
     }
     /**
      * what if nullptr is passed as input??
      *
      * */
-    MySharePtr(MySharePtr& other): SharePtr( other.SharePtr),RefCount(*other.RefCount + 1) {
+    MySharePtr(const MySharePtr& other): SharePtr( other.SharePtr),RefCount(other.RefCount) {
         *other.RefCount +=1;
     }
 
@@ -38,11 +33,14 @@ public:
             delete OldPtr;
             delete OldCount;
         }
+        return *this;
     }
 
     ~MySharePtr() {
         *RefCount -= 1;
+        std::cout<< "dstor called" <<std::endl;
         if(*RefCount == 0) {
+            std::cout<< "dstructed" <<std::endl;
             delete SharePtr;
             delete RefCount;
         }
