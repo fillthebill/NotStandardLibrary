@@ -3,5 +3,5 @@ project(smart_ptr)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(smart_ptr smart_ptr_test.cpp)
+add_executable(smart_ptr smart_ptr_test.cpp ../MyVector/MyVector_iterator.h)
 include_directories(.)

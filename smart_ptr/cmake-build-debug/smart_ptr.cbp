@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/yuanxianzhi/untitled/MyVector/MyVector_iterator.h">
+			<Option target="smart_ptr"/>
+		</Unit>
 		<Unit filename="/Users/yuanxianzhi/untitled/smart_ptr/smart_ptr_test.cpp">
 			<Option target="smart_ptr"/>
 		</Unit>

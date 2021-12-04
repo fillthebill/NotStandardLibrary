@@ -9,20 +9,19 @@ template<typename T>
 class MySharePtr {
 public:
 
-    MySharePtr(void) {SharePtr = nullptr; RefCount = new int(1);};
-    explicit MySharePtr(T* const pointer): SharePtr(pointer),RefCount(new (std::nothrow)int(1)) {
-    }
+    MySharePtr(void) {SharePtr = nullptr; RefCount = new int(0);};
+    explicit MySharePtr(T* const pointer): SharePtr(pointer),RefCount(new int(1)) {}
     /**
      * what if nullptr is passed as input??
      *
      * */
-    MySharePtr(const MySharePtr& other): SharePtr( other.SharePtr),RefCount(other.RefCount) {
+    MySharePtr(const MySharePtr& other): SharePtr(other.SharePtr),RefCount(other.RefCount) {
         *other.RefCount +=1;
     }
 
     MySharePtr& operator=(MySharePtr& other){
         T* OldPtr = SharePtr;
-        int * OldCount = RefCount;
+        int* OldCount = RefCount;
 
         SharePtr = other.SharePtr;
         RefCount = other.RefCount;
@@ -44,6 +43,21 @@ public:
             delete SharePtr;
             delete RefCount;
         }
+    }
+
+    MySharePtr& reset(T* const pointer) {
+        int* old_count = RefCount;
+        T* old_shareptr = SharePtr;
+        if(*old_count == 1) {
+            delete old_shareptr;
+            delete old_count;
+        }
+        SharePtr = pointer; RefCount = new int(1);
+        return *this;
+    }
+
+    bool operator !() {
+        return (*RefCount == 0);
     }
 
     T& operator *() const {return *SharePtr;}

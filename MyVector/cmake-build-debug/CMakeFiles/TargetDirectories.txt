@@ -1,0 +1,3 @@
+/Users/yuanxianzhi/untitled/MyVector/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/yuanxianzhi/untitled/MyVector/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/yuanxianzhi/untitled/MyVector/cmake-build-debug/CMakeFiles/MyVector.dir
