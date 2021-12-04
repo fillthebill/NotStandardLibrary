@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../smart_ptr/MySharePtr.h
+
+/Users/yuanxianzhi/untitled/query/query.cpp
+iostream
+-
+iomanip
+-
+fstream
+-
+map
+-
+memory
+-
+set
+-
+string
+-
+sstream
+-
+vector
+-
+MySharePtr.h
+/Users/yuanxianzhi/untitled/query/MySharePtr.h
+

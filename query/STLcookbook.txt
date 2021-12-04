@@ -1,31 +1,13 @@
-5. When incrementing the iterator (++it), it will move its state to the next Fibonacci
-number. This function contains the same code as the loop-based Fibonacci
-implementation:
-fibit& operator++() {
-const size_t old_b {b};
-b += a;
-a = old_b;
-++i;
-return *this;
-}
-6. When used in a loop, the incremented iterator is compared against an end
-iterator, for which we need to define the != operator. We are only comparing the
-step at which the Fibonacci iterators currently reside, which makes it easier to
-define the end iterator for step 1000000, for example, as we do not need to
-expensively calculate such a high Fibonacci number in advance:
-bool operator!=(const fibit &o) const { return i != o.i; }
-};
-7. In order to be able to use the Fibonacci iterator in the range-based for loop, we
-have to implement a range class beforehand. We call it fib_range, and its
-constructor will accept one parameter that tells how far in the Fibonacci range we
-want to iterate:
-class fib_range
-{
-size_t end_n;
-public:
-fib_range(size_t end_n_)
-: end_n{end_n_}
-{}
-8. Its begin and end functions return iterators which point to the positions, F(0)
-and F(end_n):
-fibit begin() const { return fibit{}; }
+When used in a loop, the incremented iterator
+ is compared against an end 
+iterator, for which we need to define the != operator.
+ We are only comparing the 
+step at which the Fibonacci iterators currently reside,
+ which makes it easier to define the end iterator for step
+ 1000000, for example, as we do not need to expensively
+ calculate such a high Fibonacci number in advance
+
+In order to be able to use the Fibonacci iterator
+ in the range-based for loop, we 
+have to implement a range class beforehand.
+ We call it fib_range, and its 

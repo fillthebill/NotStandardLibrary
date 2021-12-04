@@ -15,15 +15,15 @@ typedef vector<string>::size_type CLine;
 class CQueryResult
 {
 public:
-    CQueryResult(const string& _queryWord, shared_ptr<set<CLine> > _lines, shared_ptr<vector<string> > _linesText);
+    CQueryResult(const string& _queryWord, MySharePtr<set<CLine> > _lines, MySharePtr<vector<string> > _linesText);
     friend ostream& operator<<(ostream& os, const CQueryResult& _queryResult);
 
 private:
     string m_queryWord;
-    shared_ptr<set<CLine> > m_linesFound;
-    shared_ptr<vector<string> > m_linesText;
+    MySharePtr<set<CLine> > m_linesFound;
+    MySharePtr<vector<string> > m_linesText;
 };
-CQueryResult::CQueryResult(const string& _queryWord, shared_ptr<set<CLine> > _lines, shared_ptr<vector<string> > _linesText)
+CQueryResult::CQueryResult(const string& _queryWord, MySharePtr<set<CLine> > _lines, MySharePtr<vector<string> > _linesText)
         :m_queryWord(_queryWord), m_linesFound(_lines), m_linesText(_linesText)
 {
 }
@@ -50,8 +50,8 @@ public:
     CTextQuery(ifstream& _fin);
     CQueryResult query(const string& _queryWord) const;
 private:
-    shared_ptr<vector<string> > m_linesText;
-    map<string, shared_ptr<set<CLine> > > m_wordMap;
+    MySharePtr<vector<string> > m_linesText;
+    map<string, MySharePtr<set<CLine> > > m_wordMap;
 };
 CTextQuery::CTextQuery(ifstream& _fin)
         :m_linesText(new vector<string>)
@@ -66,7 +66,7 @@ CTextQuery::CTextQuery(ifstream& _fin)
         string word;
         while(iss>>word)
         {
-            auto& lines = m_wordMap[word];//没有会创建空的shared_ptr,注意这里的引用类型（有何好处？）
+            auto& lines = m_wordMap[word];//没有会创建空的MySharePtr,注意这里的引用类型（有何好处？）
             if (!lines)
             {
                 lines.reset(new set<CLine>);
@@ -78,7 +78,7 @@ CTextQuery::CTextQuery(ifstream& _fin)
 }
 CQueryResult CTextQuery::query(const string& _queryWord) const
 {
-    static shared_ptr<set<CLine>> notFound(new set<CLine>);//（设置一个静态的函数成员变量有何好处？）这里主要是可以利用此对象来判断是否存在数据
+    static MySharePtr<set<CLine>> notFound(new set<CLine>);//（设置一个静态的函数成员变量有何好处？）这里主要是可以利用此对象来判断是否存在数据
     auto itr = m_wordMap.find(_queryWord);
     if (itr != m_wordMap.end())
     {
@@ -92,11 +92,15 @@ CQueryResult CTextQuery::query(const string& _queryWord) const
 
 int main()
 {
-    ifstream fin("CPlusPlus.txt");
+    ifstream fin("../STLcookbook.txt");
+    if(!fin.is_open()) {
+        cout<<"file not open" <<endl;
+    }
     CTextQuery textQuery(fin);
-    CQueryResult queryResult = textQuery.query("C++");
+    CQueryResult queryResult = textQuery.query("iterator");
     cout<<queryResult<<endl;
 
+    system("pwd");
     return 0;
 }
 
