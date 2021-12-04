@@ -2,8 +2,8 @@
 // Created by 原显智 on 2021/12/1.
 //
 
-#ifndef UNTITLED_MYVECTOR_H
-#define UNTITLED_MYVECTOR_H
+#ifndef UNTITLED_MYVECTOR_ptr_PTR_H
+#define UNTITLED_MYVECTOR_ptr_PTR_H
 
 #include <iostream>
 
@@ -12,6 +12,7 @@ using namespace std;
 // step2 class iterator deleted
 // step3 const to be added?? when and where to add const??
 // whether return by reference when downsize;
+// when should keyword inline be used.
 /**
  * 1. define data member as three iterators (pointers), first, last, end_of_vector;
  * 2. intuitively, start with an array of elements T and size of the array.
@@ -19,17 +20,16 @@ using namespace std;
  *
  * */
 
-
 template <typename T>
-class MyVector {
+class MyVector_ptr {
 
 public:
     typedef T* iterator;
 
-    MyVector(void);
-    MyVector(const MyVector<T> & from); // copy constructor
-    MyVector& operator = (const MyVector<T> & from);
-    ~MyVector();
+    MyVector_ptr(void);
+    MyVector_ptr(const MyVector_ptr<T> & from); // copy constructor
+    MyVector_ptr& operator = (const MyVector_ptr<T> & from);
+    ~MyVector_ptr();
 
     inline int length() const {return last-first; }; // 'Redefinition of 'size' as a different kind of symbol '
     void resize();
@@ -37,12 +37,13 @@ public:
     void push_back(const T element);
     T& pop_back();
 
-    MyVector::iterator begin();
-    MyVector::iterator end();
+    MyVector_ptr::iterator begin() const;
+    MyVector_ptr::iterator end() const;
 
-    //T& operator[](int t) {
 
-    //};
+    T& operator[](int t) { // 需不需要throw.
+        return *(first+t);
+    }
 
 private:
     iterator first;
@@ -55,19 +56,19 @@ private:
 };
 
 template <typename T>
-void MyVector<T>::vector_init(const int sz) {
+void MyVector_ptr<T>::vector_init(const int sz) {
     first = new T[sz];
     last = first;
     end_of_vector = first+sz;
 }
 
 template <typename T>
-MyVector<T>::MyVector(void) {
+MyVector_ptr<T>::MyVector_ptr(void) {
     vector_init(7);
 }
 
 template <typename T>
-void MyVector<T>::copy_vector(const iterator from, const iterator to, int num) {
+void MyVector_ptr<T>::copy_vector(const iterator from, const iterator to, int num) {
     iterator traverse_from = from;
     iterator traverse_to = to;
     for(int i = 0; i < num; ++i) {
@@ -79,7 +80,7 @@ void MyVector<T>::copy_vector(const iterator from, const iterator to, int num) {
 
 
 template <typename T>
-MyVector<T>::MyVector(const MyVector<T>& from) {
+MyVector_ptr<T>::MyVector_ptr(const MyVector_ptr<T>& from) {
     int sz = from.length();
     vector_init(sz);
     copy_vector(from.first,first, sz);
@@ -88,7 +89,7 @@ MyVector<T>::MyVector(const MyVector<T>& from) {
 }
 
 template <typename T>
-MyVector<T>& MyVector<T>::operator= (const MyVector<T>& from) {
+MyVector_ptr<T>& MyVector_ptr<T>::operator= (const MyVector_ptr<T>& from) {
     if(this == &from) {
         return *this;
     }else {
@@ -102,12 +103,12 @@ MyVector<T>& MyVector<T>::operator= (const MyVector<T>& from) {
 }
 
 template <typename T>
-MyVector<T>::~MyVector<T>() {
+MyVector_ptr<T>::~MyVector_ptr<T>() {
     delete[] first;
 }
 
 template <typename T>
-void MyVector<T>::resize() {
+void MyVector_ptr<T>::resize() {
     iterator old_first = first;
     int old_length = this->length();
     vector_init(2*old_length);
@@ -118,7 +119,7 @@ void MyVector<T>::resize() {
 }
 
 template <typename T>
-void MyVector<T>::sizedown() {
+void MyVector_ptr<T>::sizedown() {
     int len = this->length();
     iterator old_first = first;
     vector_init(2*len);
@@ -128,7 +129,7 @@ void MyVector<T>::sizedown() {
 }
 
 template <typename T>
-void MyVector<T>::push_back(const T element) {
+void MyVector_ptr<T>::push_back(const T element) {
     if(last == end_of_vector) {
         resize();
         std::cout<< "resize" <<std::endl;
@@ -141,7 +142,7 @@ void MyVector<T>::push_back(const T element) {
 }
 
 template <typename T>
-T& MyVector<T>::pop_back() {
+T& MyVector_ptr<T>::pop_back() {
 
     int len = this->length();
     if( 4 * len < end_of_vector - first) {
@@ -153,14 +154,14 @@ T& MyVector<T>::pop_back() {
 }
 
 template <typename T>
-T* MyVector<T>::begin() {
+T* MyVector_ptr<T>::begin() const {
     return first;
 }
 
 template <typename T>
-T* MyVector<T>::end() {
+T* MyVector_ptr<T>::end() const {
     return last;
 }
 
 
-#endif //UNTITLED_MYVECTOR_H
+#endif //UNTITLED_MYVECTOR_ptr_PTR_H

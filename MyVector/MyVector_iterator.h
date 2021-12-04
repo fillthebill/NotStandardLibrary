@@ -61,18 +61,21 @@ using namespace std;
 
             bool operator ==(iterator& cmp) {return cmp.vector_ptr == vector_ptr; };
             bool operator !=(iterator& cmp) {return cmp.vector_ptr != vector_ptr; };
-            iterator& operator++() {vector_ptr++; return *this; };
-            iterator& operator--() {vector_ptr--; return *this; };
-            iterator operator++(int t) {vector_ptr++; return *this;};
-            iterator operator--(int t) {vector_ptr--; return *this;};
-            iterator& operator+(int t) {vector_ptr+=t; return *this;};
-            iterator& operator-(int t) {vector_ptr-=t; return *this;};
-            iterator& operator+=(int t) {vector_ptr+=t; return *this;};
-            iterator& operator-=(int t) {vector_ptr-=t; return *this;};
             bool operator>=(iterator& rhs) {return vector_ptr >= rhs.vector_ptr;};
             bool operator<(iterator& rhs) {return vector_ptr < rhs.vector_ptr;};
             bool operator<=(iterator& rhs) {return vector_ptr <= rhs.vector_ptr;};
             bool operator>(iterator& rhs) {return vector_ptr > rhs.vector_ptr;};
+
+            iterator& operator++() {vector_ptr++; return *this; };
+            iterator& operator--() {vector_ptr--; return *this; };
+            iterator operator++(int t) {iterator temp = *this; vector_ptr++; return temp;};
+            iterator operator--(int t) {iterator temp = *this; vector_ptr--; return temp;};
+
+            iterator& operator+(int t) {vector_ptr+=t; return *this;};
+            iterator& operator-(int t) {vector_ptr-=t; return *this;};
+            iterator& operator+=(int t) {vector_ptr+=t; return *this;};
+            iterator& operator-=(int t) {vector_ptr-=t; return *this;};
+
             difference_type operator-(iterator& cmp) {vector_ptr - cmp.vector_ptr;};
 
 
